@@ -1,0 +1,88 @@
+:root {
+    --color-background: #050210;
+    --color-light-pink: #fb5dad;
+    --color-light-green: #55fb9f;
+    --color-light-purple: #b97aff;
+    --offset: 50px;
+    --minus-offset: calc(var(--offset) * -1);
+    --blur: 150px;
+    --spread: -50px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background-color: var(--color-background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#circle {
+    width: 70vmin;
+    height: 70vmin;
+    border-radius: 50%;
+    border: 5vmin solid transparent;
+    background-origin: border-box;
+    /* This sets colors relative to background-clip */
+    background-image:
+        linear-gradient(var(--color-background), var(--color-background)),
+        linear-gradient(var(--color-light-pink), var(--color-light-green), var(--color-light-purple));
+    /* Determines the background painting area. */
+    background-clip: content-box, border-box;
+    box-shadow:
+        0px var(--minus-offset) var(--blur) var(--spread) var(--color-light-pink),
+        0px var(--offset) var(--blur) var(--spread) var(--color-light-purple),
+        var(--offset) 0px var(--blur) var(--spread) var(--color-light-green),
+        var(--minus-offset) 0px var(--blur) var(--spread) var(--color-light-green);
+    animation: circleRotate 1.5s linear 0s infinite;
+}
+
+#circle::after,
+#circle::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: scale(0);
+    background-color: var(--color-background);
+    border-radius: 50%;
+    filter: brightness(400%);
+    animation: circlePulse 2.5s ease-out 0s infinite;
+}
+
+#circle::after {
+    animation: circlePulse 2.5s ease-out 1.25s infinite;
+}
+
+@keyframes circleRotate {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes circlePulse {
+    0% {
+        transform: scale(0);
+    }
+    99% {
+        opacity: .8
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
